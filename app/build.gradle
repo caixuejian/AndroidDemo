@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
     compile files('libs/nineoldandroids-2.4.0.jar')
+    compile project(':vitamio')
 }

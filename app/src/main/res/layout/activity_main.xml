@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
-       <ImageView
-           android:id="@+id/image"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content" />
+    <com.example.dinus.androiddemo.RulerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_size="14sp" />
+
+    <com.example.dinus.androiddemo.CoverSelectView
+        android:id="@+id/coverSelectView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        </FrameLayout>
+    </FrameLayout>
 
-    </LinearLayout>
+
+</LinearLayout>
