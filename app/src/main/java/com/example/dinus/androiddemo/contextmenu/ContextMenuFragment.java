@@ -1,33 +1,39 @@
 package com.example.dinus.androiddemo.contextmenu;
 
 
+import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
+ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.dinus.androiddemo.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link  } subclass.
  * Use the {@link ContextMenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ContextMenuFragment extends Fragment {
+public class ContextMenuFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
+    private static final String ARG_MENU_PARAMS = "ARG_MENU_PARAMS";
 
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<Integer> mMenuParams;
 
+    private RelativeLayout mWrapperButtons;
+    private MenuAdapter mDropDownMenuAdapter;
 
-    public static ContextMenuFragment newInstance(String param1, String param2) {
+    public static ContextMenuFragment newInstance(ArrayList<Integer> mMenuParams) {
         ContextMenuFragment fragment = new ContextMenuFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putIntegerArrayList(ARG_MENU_PARAMS, mMenuParams);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,9 +44,9 @@ public class ContextMenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_FRAME, R.style.MenuFragmentStyle);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mMenuParams = getArguments().getIntegerArrayList(ARG_MENU_PARAMS);
         }
     }
 
@@ -50,5 +56,16 @@ public class ContextMenuFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_context_menu, container, false);
     }
 
-
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
+        mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDropDownMenuAdapter.menuToggle();
+            }
+        }, 0);
+    }
 }
