@@ -29,7 +29,6 @@ public class MainActivity extends ActionBarActivity {
         
     }
 
-
     private ArrayList<Integer> getMenuObjects(){
         ArrayList<Integer> menuObjects = new ArrayList<>();
         menuObjects.add(R.drawable.icn_1);

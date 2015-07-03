@@ -1,25 +1,18 @@
 package com.example.dinus.androiddemo.contextmenu;
 
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.os.Bundle;
- import android.view.LayoutInflater;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.dinus.androiddemo.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * A simple {@link  } subclass.
- * Use the {@link ContextMenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContextMenuFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
