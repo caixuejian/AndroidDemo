@@ -17,6 +17,8 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.vov.vitamio.utils.Log;
+
 public class MenuAdapter {
     public static final int ANIMATION_DURATION_MILLIS = 300;
 
@@ -113,6 +115,7 @@ public class MenuAdapter {
             public void onClick(View v) {
                 mItemClickListenerCallBack = mItemClickListener;
                 menuToggle();
+                Log.d("debug", "menutoggle");
             }
         });
     }
