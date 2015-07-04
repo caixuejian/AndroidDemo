@@ -1,20 +1,20 @@
 package com.example.dinus.androiddemo;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.dinus.androiddemo.contextmenu.ContextMenuFragment;
+import com.example.dinus.androiddemo.contextmenu.MenuAdapter;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MenuAdapter.OnMenuItemClickListener{
 
     private FragmentManager fm;
     private ContextMenuFragment dialogFragment;
@@ -66,5 +66,10 @@ public class MainActivity extends ActionBarActivity {
         } else{
             finish();
         }
+    }
+
+    @Override
+    public void onMenuItemClick(View clickedView, int position) {
+        Toast.makeText(this, position + "position", Toast.LENGTH_LONG).show();
     }
 }

@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -36,10 +37,29 @@ public class MenuAdapter {
     private boolean mIsMenuOpen = false;
     private boolean mIsAnimationRun = false;
 
-    private OnMenuItemClickListener mOnMenuItemClickListener;
+    private OnItemClickListener mItemClickListener;
+    private OnItemClickListener mItemClickListenerCallBack;
+    private View mClickedView;
+
+    private View.OnClickListener menuItemClick = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            mItemClickListenerCallBack = mItemClickListener;
+            viewClicked(v);
+        }
+    };
 
     public interface OnMenuItemClickListener {
         void onMenuItemClick(View clickedView, int position);
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View clickView);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 
     public MenuAdapter(Context mContext, List<Integer> mMenuObjects, RelativeLayout mMenuWrapper) {
@@ -71,7 +91,7 @@ public class MenuAdapter {
         childMargin = childHeight / 5;
 
         translateBaseX = (screenWidth + childHeight) / 2;
-        translateBaseY = (screenHeight - childHeight * getItemCount() - childMargin * (getItemCount() - 1)) / 2;
+        translateBaseY = (screenHeight - childHeight * getItemCount() - childMargin * (getItemCount() - 1)) / 2 + childHeight;
     }
 
     private void setViews() {
@@ -79,11 +99,29 @@ public class MenuAdapter {
             ImageView menuItem = new ImageView(mContext);
             menuItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
             menuItem.setImageResource(mMenuObjects.get(i));
+            menuItem.setOnClickListener(menuItemClick);
 
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(childHeight, childHeight);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             layoutParams.rightMargin = -childHeight;
+            layoutParams.topMargin = -childHeight;
             mMenuWrapper.addView(menuItem, layoutParams);
+        }
+    }
+
+    public long getAnimationDuration(){
+        return ANIMATION_DURATION_MILLIS;
+    }
+
+    private void viewClicked(View view){
+        Toast.makeText(mContext,  mIsMenuOpen + " " + mIsAnimationRun, Toast.LENGTH_LONG).show();
+        if (mIsMenuOpen && !mIsAnimationRun){
+            mClickedView = view;
+            int childIndex = mMenuWrapper.indexOfChild(view);
+            if (childIndex == -1){
+                return ;
+            }
+            menuToggle();
         }
     }
 
@@ -94,7 +132,7 @@ public class MenuAdapter {
     public void menuToggle() {
         if (!mIsAnimationRun) {
             resetAnimations();
-            mIsAnimationRun = true;
+            toggleIsAnimationRun();
             if (mIsMenuOpen) {
                 mAnimatorSetHideMenu.start();
             } else {
@@ -127,9 +165,8 @@ public class MenuAdapter {
 
         AnimatorSet imageCloseAnimatorSet = new AnimatorSet();
         imageCloseAnimatorSet.playTogether(imageAnimators);
-
-        imageCloseAnimatorSet.setDuration(300);
-        imageCloseAnimatorSet.addListener(mCloseOpenAnimatorListener);
+        imageCloseAnimatorSet.addListener(isCloseAnimation? mCloseAnimatorListener : mOpenAnimatorListener);
+        imageCloseAnimatorSet.setDuration(ANIMATION_DURATION_MILLIS);
         imageCloseAnimatorSet.setStartDelay(0);
         imageCloseAnimatorSet.setInterpolator(new OvershootInterpolator());
         return imageCloseAnimatorSet;
@@ -152,10 +189,16 @@ public class MenuAdapter {
         return openFullAnimator;
     }
 
-    private ObjectAnimator getCloseAnimator(int wrapperPosition) {
-        ObjectAnimator closeAnimator = AnimatorUtils.translationRight(mMenuWrapper.getChildAt(wrapperPosition), screenWidth / 2.0f);
-
-        return closeAnimator;
+    private Animator getCloseAnimator(int wrapperPosition) {
+        AnimatorSet closeFullAnimator = new AnimatorSet();
+        ObjectAnimator transXAnimator = AnimatorUtils.translationX(mMenuWrapper.getChildAt(wrapperPosition), -translateBaseX, 0);
+        ObjectAnimator transYAnimator = AnimatorUtils.translationY(mMenuWrapper.getChildAt(wrapperPosition),
+                translateBaseY + (childHeight + childMargin) * wrapperPosition, 0.0f);
+        ObjectAnimator scaleYAnimator = AnimatorUtils.scaleY(mMenuWrapper.getChildAt(wrapperPosition), 1.0f, 0.0f);
+        ObjectAnimator scaleXAnimator = AnimatorUtils.scaleX(mMenuWrapper.getChildAt(wrapperPosition), 1.0f, 0.0f);
+        closeFullAnimator.play(transXAnimator).with(transYAnimator).with(scaleXAnimator).with(scaleYAnimator);
+        closeFullAnimator.setStartDelay( wrapperPosition  * 50);
+        return closeFullAnimator;
     }
 
     private void toggleIsAnimationRun() {
@@ -166,8 +209,7 @@ public class MenuAdapter {
         mIsMenuOpen = !mIsMenuOpen;
     }
 
-
-    private Animator.AnimatorListener mCloseOpenAnimatorListener = new Animator.AnimatorListener() {
+    private Animator.AnimatorListener mOpenAnimatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
 
@@ -187,7 +229,7 @@ public class MenuAdapter {
         }
     };
 
-    private Animator.AnimatorListener mChosenItemFinishAnimatorListener = new Animator.AnimatorListener() {
+    private Animator.AnimatorListener mCloseAnimatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
         }
@@ -195,7 +237,10 @@ public class MenuAdapter {
         @Override
         public void onAnimationEnd(Animator animation) {
             toggleIsAnimationRun();
-
+            if (mItemClickListenerCallBack != null){
+                mItemClickListenerCallBack.onItemClick(mClickedView);
+                mItemClickListenerCallBack = null;
+            }
         }
 
         @Override

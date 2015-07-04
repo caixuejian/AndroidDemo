@@ -1,6 +1,7 @@
 package com.example.dinus.androiddemo.contextmenu;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -13,7 +14,7 @@ import com.example.dinus.androiddemo.R;
 
 import java.util.ArrayList;
 
-public class ContextMenuFragment extends DialogFragment {
+public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener{
     // TODO: Rename parameter arguments, choose names that match
     public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
     private static final String ARG_MENU_PARAMS = "ARG_MENU_PARAMS";
@@ -22,6 +23,8 @@ public class ContextMenuFragment extends DialogFragment {
 
     private RelativeLayout mWrapperButtons;
     private MenuAdapter mDropDownMenuAdapter;
+
+    private MenuAdapter.OnMenuItemClickListener mOnMenuItemClickListener;
 
     public static ContextMenuFragment newInstance(ArrayList<Integer> mMenuParams) {
         ContextMenuFragment fragment = new ContextMenuFragment();
@@ -32,6 +35,15 @@ public class ContextMenuFragment extends DialogFragment {
     }
 
     public ContextMenuFragment() {
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof MenuAdapter.OnMenuItemClickListener){
+            mOnMenuItemClickListener = (MenuAdapter.OnMenuItemClickListener) activity;
+        }
     }
 
     @Override
@@ -54,11 +66,29 @@ public class ContextMenuFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
+        mDropDownMenuAdapter.setOnItemClickListener(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mDropDownMenuAdapter.menuToggle();
             }
         }, 0);
+    }
+
+    @Override
+    public void onItemClick(View clickView) {
+        if (mOnMenuItemClickListener != null){
+            mOnMenuItemClickListener.onMenuItemClick(clickView, mWrapperButtons.indexOfChild(clickView));
+        }
+        close();
+    }
+
+    private void close(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, mDropDownMenuAdapter.getAnimationDuration());
     }
 }
