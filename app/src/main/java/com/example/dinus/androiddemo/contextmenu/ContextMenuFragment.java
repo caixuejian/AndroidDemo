@@ -14,7 +14,7 @@ import com.example.dinus.androiddemo.R;
 
 import java.util.ArrayList;
 
-public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener{
+public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
     private static final String ARG_MENU_PARAMS = "ARG_MENU_PARAMS";
@@ -41,7 +41,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof MenuAdapter.OnMenuItemClickListener){
+        if (activity instanceof MenuAdapter.OnMenuItemClickListener) {
             mOnMenuItemClickListener = (MenuAdapter.OnMenuItemClickListener) activity;
         }
     }
@@ -77,8 +77,10 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
 
     @Override
     public void onItemClick(View clickView) {
-        if (mOnMenuItemClickListener != null){
-            mOnMenuItemClickListener.onMenuItemClick(clickView, mWrapperButtons.indexOfChild(clickView));
+        if (mOnMenuItemClickListener != null) {
+            if (mWrapperButtons.indexOfChild(clickView) != -1) {
+                mOnMenuItemClickListener.onMenuItemClick(clickView, mWrapperButtons.indexOfChild(clickView));
+            }
         }
         close();
     }
