@@ -107,6 +107,14 @@ public class MenuAdapter {
             layoutParams.topMargin = -childHeight;
             mMenuWrapper.addView(menuItem, layoutParams);
         }
+
+        mMenuWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListenerCallBack = mItemClickListener;
+                menuToggle();
+            }
+        });
     }
 
     public long getAnimationDuration(){
@@ -114,7 +122,6 @@ public class MenuAdapter {
     }
 
     private void viewClicked(View view){
-        Toast.makeText(mContext,  mIsMenuOpen + " " + mIsAnimationRun, Toast.LENGTH_LONG).show();
         if (mIsMenuOpen && !mIsAnimationRun){
             mClickedView = view;
             int childIndex = mMenuWrapper.indexOfChild(view);
@@ -143,10 +150,7 @@ public class MenuAdapter {
     }
 
     private void resetAnimations() {
-        for (int i = 0; i < getItemCount(); i++) {
-//            mMenuWrapper.getChildAt(i).setX(0);
-//            mMenuWrapper.getChildAt(i).setY(0);
-        }
+
     }
 
 
@@ -228,7 +232,6 @@ public class MenuAdapter {
         public void onAnimationRepeat(Animator animation) {
         }
     };
-
     private Animator.AnimatorListener mCloseAnimatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
