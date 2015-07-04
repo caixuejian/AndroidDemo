@@ -84,11 +84,11 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     }
 
     private void close(){
-        new Handler().postDelayed(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
                 dismiss();
             }
-        }, mDropDownMenuAdapter.getAnimationDuration());
+        });
     }
 }
