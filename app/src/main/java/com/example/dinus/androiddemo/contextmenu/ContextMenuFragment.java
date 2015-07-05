@@ -2,12 +2,20 @@ package com.example.dinus.androiddemo.contextmenu;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.dinus.androiddemo.R;
@@ -23,6 +31,9 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
 
     private RelativeLayout mWrapperButtons;
     private MenuAdapter mDropDownMenuAdapter;
+    private ImageView itemView;
+    private View expandItem;
+    private int expandItemIconId;
 
     private MenuAdapter.OnMenuItemClickListener mOnMenuItemClickListener;
 
@@ -66,13 +77,29 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
         super.onViewCreated(view, savedInstanceState);
         mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
+        itemView = (ImageView) view.findViewById(R.id.menu_item);
         mDropDownMenuAdapter.setOnItemClickListener(this);
+
+        layoutExapndMenuItem();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mDropDownMenuAdapter.menuToggle();
             }
         }, 0);
+    }
+
+    private void layoutExapndMenuItem() {
+        if (expandItem == null){
+            return ;
+        }
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) itemView.getLayoutParams();
+        layoutParams.width = expandItem.getWidth();
+        layoutParams.height = expandItem.getHeight();
+        itemView.setPadding(expandItem.getPaddingLeft(), expandItem.getPaddingTop(),
+                expandItem.getPaddingRight(), expandItem.getPaddingBottom());
+        itemView.setLayoutParams(layoutParams);
+        itemView.setImageResource(expandItemIconId);
     }
 
     @Override
@@ -85,12 +112,20 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
         close();
     }
 
-    private void close(){
+    private void close() {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
                 dismiss();
             }
         });
+    }
+
+    public void setExpandItem(View expandItem) {
+        this.expandItem = expandItem;
+    }
+
+    public void setExpandItemIconId(int expandItemIconId){
+        this.expandItemIconId = expandItemIconId;
     }
 }
