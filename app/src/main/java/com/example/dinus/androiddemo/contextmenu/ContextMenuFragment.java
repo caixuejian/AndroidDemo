@@ -71,6 +71,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
         itemView = (ImageView) view.findViewById(R.id.menu_item);
         mDropDownMenuAdapter.setOnItemClickListener(this);
@@ -82,6 +83,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
                 mDropDownMenuAdapter.menuToggle();
             }
         }, 0);
+
     }
 
     private void layoutExapndMenuItem() {
