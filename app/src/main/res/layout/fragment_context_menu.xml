@@ -2,7 +2,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b3000000">
+    android:background="#b1000000">
 
     <RelativeLayout
         android:id="@+id/wrapper_buttons"

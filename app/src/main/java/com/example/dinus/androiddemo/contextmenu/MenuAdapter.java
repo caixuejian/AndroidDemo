@@ -9,6 +9,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.example.dinus.androiddemo.R;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -96,6 +97,7 @@ public class MenuAdapter {
     }
 
     private void setViews() {
+//        btnAddAction();
         for (int i = 0; i < mMenuObjects.size(); i++) {
             ImageView menuItem = new ImageView(mContext);
             menuItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -119,6 +121,18 @@ public class MenuAdapter {
         });
     }
 
+    private void btnAddAction(){
+        ImageView btnAdd = new ImageView(mContext);
+        btnAdd.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        btnAdd.setImageResource(R.drawable.btn_add);
+        btnAdd.animate().rotation(90.0f).setDuration(1000l).start();
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(0,0);
+        layoutParams.rightMargin = 0;
+        layoutParams.topMargin = 0;
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        mMenuWrapper.addView(btnAdd,layoutParams);
+
+    }
     public long getAnimationDuration(){
         return ANIMATION_DURATION_MILLIS;
     }

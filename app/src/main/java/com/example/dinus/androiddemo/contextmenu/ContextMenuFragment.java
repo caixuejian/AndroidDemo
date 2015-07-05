@@ -2,18 +2,12 @@ package com.example.dinus.androiddemo.contextmenu;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,6 +17,7 @@ import com.example.dinus.androiddemo.R;
 import java.util.ArrayList;
 
 public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener {
+
     // TODO: Rename parameter arguments, choose names that match
     public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
     private static final String ARG_MENU_PARAMS = "ARG_MENU_PARAMS";
@@ -30,6 +25,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     private ArrayList<Integer> mMenuParams;
 
     private RelativeLayout mWrapperButtons;
+    private ImageView mBtnAdd;
     private MenuAdapter mDropDownMenuAdapter;
     private ImageView itemView;
     private View expandItem;
@@ -75,7 +71,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
+
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
         itemView = (ImageView) view.findViewById(R.id.menu_item);
         mDropDownMenuAdapter.setOnItemClickListener(this);
@@ -87,6 +83,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
                 mDropDownMenuAdapter.menuToggle();
             }
         }, 0);
+
     }
 
     private void layoutExapndMenuItem() {
@@ -128,4 +125,5 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     public void setExpandItemIconId(int expandItemIconId){
         this.expandItemIconId = expandItemIconId;
     }
+
 }
