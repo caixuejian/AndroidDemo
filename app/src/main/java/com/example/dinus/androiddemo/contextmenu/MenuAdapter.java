@@ -17,14 +17,13 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.vov.vitamio.utils.Log;
-
 public class MenuAdapter {
     public static final int ANIMATION_DURATION_MILLIS = 300;
 
     private Context mContext;
 
     private RelativeLayout mMenuWrapper;
+    private View moreItemView;
 
     private List<Integer> mMenuObjects;
     private AnimatorSet mAnimatorSetHideMenu;
@@ -64,9 +63,10 @@ public class MenuAdapter {
         this.mItemClickListener = mItemClickListener;
     }
 
-    public MenuAdapter(Context mContext, List<Integer> mMenuObjects, RelativeLayout mMenuWrapper) {
+    public MenuAdapter(Context mContext, List<Integer> mMenuObjects, RelativeLayout mMenuWrapper, View moreItemView) {
         this.mMenuObjects = mMenuObjects;
         this.mMenuWrapper = mMenuWrapper;
+        this.moreItemView = moreItemView;
         this.mContext = mContext;
 
         init();
@@ -120,18 +120,6 @@ public class MenuAdapter {
         });
     }
 
-    private void btnAddAction(){
-        ImageView btnAdd = new ImageView(mContext);
-        btnAdd.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        btnAdd.setImageResource(R.drawable.btn_add);
-        btnAdd.animate().rotation(90.0f).setDuration(1000l).start();
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(0,0);
-        layoutParams.rightMargin = 0;
-        layoutParams.topMargin = 0;
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        mMenuWrapper.addView(btnAdd,layoutParams);
-
-    }
     public long getAnimationDuration(){
         return ANIMATION_DURATION_MILLIS;
     }
@@ -182,9 +170,14 @@ public class MenuAdapter {
             }
         }
 
+        Animator moreAnimator = AnimatorUtils.rotate(moreItemView, 0.0f, isCloseAnimation? -90.0f : 90.0f);
+        moreAnimator.setInterpolator(new OvershootInterpolator(2.0f));
+        moreAnimator.setDuration(ANIMATION_DURATION_MILLIS);
+        imageAnimators.add(moreAnimator);
+
         AnimatorSet imageCloseAnimatorSet = new AnimatorSet();
         imageCloseAnimatorSet.playTogether(imageAnimators);
-        imageCloseAnimatorSet.addListener(isCloseAnimation? mCloseAnimatorListener : mOpenAnimatorListener);
+        imageCloseAnimatorSet.addListener(isCloseAnimation ? mCloseAnimatorListener : mOpenAnimatorListener);
         imageCloseAnimatorSet.setDuration(ANIMATION_DURATION_MILLIS);
         imageCloseAnimatorSet.setStartDelay(0);
         imageCloseAnimatorSet.setInterpolator(new OvershootInterpolator());

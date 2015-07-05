@@ -1,6 +1,5 @@
 package com.example.dinus.androiddemo;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -13,8 +12,6 @@ import com.example.dinus.androiddemo.contextmenu.ContextMenuFragment;
 import com.example.dinus.androiddemo.contextmenu.MenuAdapter;
 
 import java.util.ArrayList;
-
-import io.vov.vitamio.utils.Log;
 
 
 public class MainActivity extends ActionBarActivity implements MenuAdapter.OnMenuItemClickListener{
@@ -51,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements MenuAdapter.OnMen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_more:
-                dialogFragment.setExpandItem(findViewById(R.id.action_more));
+                dialogFragment.setOuterMoreItem(findViewById(R.id.action_more));
                 dialogFragment.setExpandItemIconId(R.drawable.btn_add);
                 if (fm.findFragmentByTag(ContextMenuFragment.TAG) == null){
                     dialogFragment.show(fm, ContextMenuFragment.TAG);

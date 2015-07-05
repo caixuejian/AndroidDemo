@@ -15,12 +15,8 @@ public class AnimatorUtils {
         return ObjectAnimator.ofFloat(v, "scaleX", from, to);
     }
 
-    public static ObjectAnimator alfaDisappear(View v) {
-        return ObjectAnimator.ofFloat(v, "alpha", 1, 0);
-    }
-
-    public static ObjectAnimator alfaAppear(View v) {
-        return ObjectAnimator.ofFloat(v, "alpha", 0, 1);
+    public static ObjectAnimator rotate(View v, float fromDegree, float toDegree) {
+        return ObjectAnimator.ofFloat(v, "rotation", fromDegree, toDegree);
     }
 
     public static ObjectAnimator translationRight(View v, float x) {
@@ -36,10 +32,5 @@ public class AnimatorUtils {
         return ObjectAnimator.ofFloat(v, "translationY", from, to);
     }
 
-    public static AnimatorSet fadeOutSet(View v, float x){
-        AnimatorSet fadeOutSet = new AnimatorSet();
-        fadeOutSet.playTogether(alfaDisappear(v), translationRight(v,x));
-        return fadeOutSet;
-    }
 
 }
