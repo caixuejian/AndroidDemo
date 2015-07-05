@@ -2,7 +2,17 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b3000000">
+    android:background="#b1000000">
+
+    <ImageView
+        android:id="@+id/btn_add"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_add"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:id="@+id/wrapper_buttons"
