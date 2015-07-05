@@ -8,13 +8,14 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.dinus.androiddemo.R;
 
 import java.util.ArrayList;
 
-public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener {
+public class ContextMenuFragment extends DialogFragment implements MenuAdapter.OnItemClickListener,View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     public static final String TAG = ContextMenuFragment.class.getName() + "TAG";
     private static final String ARG_MENU_PARAMS = "ARG_MENU_PARAMS";
@@ -22,6 +23,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     private ArrayList<Integer> mMenuParams;
 
     private RelativeLayout mWrapperButtons;
+    private ImageView mBtnAdd;
     private MenuAdapter mDropDownMenuAdapter;
 
     private MenuAdapter.OnMenuItemClickListener mOnMenuItemClickListener;
@@ -65,6 +67,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
+        mWrapperButtons.setOnClickListener(this);
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons);
         mDropDownMenuAdapter.setOnItemClickListener(this);
         new Handler().postDelayed(new Runnable() {
@@ -73,6 +76,9 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
                 mDropDownMenuAdapter.menuToggle();
             }
         }, 0);
+        mBtnAdd = (ImageView)view.findViewById(R.id.btn_add);
+        mBtnAdd.animate().rotation(90.0f).setDuration(1000l).start();
+        mBtnAdd.setOnClickListener(this);
     }
 
     @Override
@@ -92,5 +98,19 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
                 dismiss();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_add:
+                close();
+                break;
+            case R.id.wrapper_buttons:
+                close();
+            default:
+                break;
+        }
+
     }
 }
