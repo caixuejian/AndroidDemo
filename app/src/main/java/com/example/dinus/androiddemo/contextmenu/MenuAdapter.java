@@ -9,7 +9,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.dinus.androiddemo.R;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -23,7 +22,7 @@ public class MenuAdapter {
     private Context mContext;
 
     private RelativeLayout mMenuWrapper;
-    private View moreItemView;
+    private View mMoreItemView;
 
     private List<Integer> mMenuObjects;
     private AnimatorSet mAnimatorSetHideMenu;
@@ -66,7 +65,7 @@ public class MenuAdapter {
     public MenuAdapter(Context mContext, List<Integer> mMenuObjects, RelativeLayout mMenuWrapper, View moreItemView) {
         this.mMenuObjects = mMenuObjects;
         this.mMenuWrapper = mMenuWrapper;
-        this.moreItemView = moreItemView;
+        this.mMoreItemView = moreItemView;
         this.mContext = mContext;
 
         init();
@@ -97,7 +96,6 @@ public class MenuAdapter {
     }
 
     private void setViews() {
-//        btnAddAction();
         for (int i = 0; i < mMenuObjects.size(); i++) {
             ImageView menuItem = new ImageView(mContext);
             menuItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -111,7 +109,7 @@ public class MenuAdapter {
             mMenuWrapper.addView(menuItem, layoutParams);
         }
 
-        mMenuWrapper.setOnClickListener(new View.OnClickListener() {
+        mMoreItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemClickListenerCallBack = mItemClickListener;
@@ -139,7 +137,7 @@ public class MenuAdapter {
         return mMenuObjects.size();
     }
 
-    public void menuToggle() {
+    public boolean menuToggle() {
         if (!mIsAnimationRun) {
             resetAnimations();
             toggleIsAnimationRun();
@@ -149,7 +147,10 @@ public class MenuAdapter {
                 mAnimatorSetShowMenu.start();
             }
             toggleIsMenuOpen();
+            return true;
         }
+
+        return false;
     }
 
     private void resetAnimations() {
@@ -170,7 +171,7 @@ public class MenuAdapter {
             }
         }
 
-        Animator moreAnimator = AnimatorUtils.rotate(moreItemView, 0.0f, isCloseAnimation? -90.0f : 90.0f);
+        Animator moreAnimator = AnimatorUtils.rotate(mMoreItemView, isCloseAnimation ? 45.0f : 0.0f, isCloseAnimation? 0.0f : 45.0f);
         moreAnimator.setInterpolator(new OvershootInterpolator(2.0f));
         moreAnimator.setDuration(ANIMATION_DURATION_MILLIS);
         imageAnimators.add(moreAnimator);

@@ -2,12 +2,15 @@ package com.example.dinus.androiddemo.contextmenu;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -55,6 +58,7 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setStyle(STYLE_NO_FRAME, R.style.MenuFragmentStyle);
         if (getArguments() != null) {
             mMenuParams = getArguments().getIntegerArrayList(ARG_MENU_PARAMS);
@@ -70,25 +74,25 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        //intercept back event
+        setCancelable(false);
         innerMoreItem = (ImageView) view.findViewById(R.id.more_item);
         mWrapperButtons = (RelativeLayout) view.findViewById(R.id.wrapper_buttons);
         mDropDownMenuAdapter = new MenuAdapter(getActivity(), mMenuParams, mWrapperButtons, innerMoreItem);
         mDropDownMenuAdapter.setOnItemClickListener(this);
+        mDropDownMenuAdapter.menuToggle();
 
         layoutExapndMenuItem();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDropDownMenuAdapter.menuToggle();
-            }
-        }, 0);
+        resetBackEvent();
+
+        outerMoreItem.setVisibility(View.GONE);
 
     }
 
     private void layoutExapndMenuItem() {
-        if (outerMoreItem == null){
-            return ;
+        if (outerMoreItem == null) {
+            return;
         }
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) innerMoreItem.getLayoutParams();
         layoutParams.width = outerMoreItem.getWidth();
@@ -99,6 +103,34 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
         innerMoreItem.setImageResource(expandItemIconId);
     }
 
+
+    private void resetBackEvent(){
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(android.content.DialogInterface dialog, int keyCode,
+                                 android.view.KeyEvent event) {
+
+                if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                    if (event.getAction() != KeyEvent.ACTION_UP) {
+                        return true;
+                    } else {
+                        if (mDropDownMenuAdapter.menuToggle()) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dismiss();
+                                }
+                            }, mDropDownMenuAdapter.getAnimationDuration());
+                        }
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
     @Override
     public void onItemClick(View clickView) {
         if (mOnMenuItemClickListener != null) {
@@ -106,24 +138,21 @@ public class ContextMenuFragment extends DialogFragment implements MenuAdapter.O
                 mOnMenuItemClickListener.onMenuItemClick(clickView, mWrapperButtons.indexOfChild(clickView));
             }
         }
-        close();
-    }
-
-    private void close() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                dismiss();
-            }
-        });
+        dismiss();
     }
 
     public void setOuterMoreItem(View outerMoreItem) {
         this.outerMoreItem = outerMoreItem;
     }
 
-    public void setExpandItemIconId(int expandItemIconId){
+    public void setInnerMoreItemIconId(int expandItemIconId) {
         this.expandItemIconId = expandItemIconId;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        outerMoreItem.setVisibility(View.VISIBLE);
     }
 
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_more"
+        android:id="@+id/more_item"
         android:orderInCategory="100"
         android:title="setting"
         android:icon="@drawable/btn_add"

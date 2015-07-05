@@ -19,12 +19,6 @@ public class AnimatorUtils {
         return ObjectAnimator.ofFloat(v, "rotation", fromDegree, toDegree);
     }
 
-    public static ObjectAnimator translationRight(View v, float x) {
-        return ObjectAnimator.ofFloat(v, "translationX", 0, x);
-    }
-    public static ObjectAnimator translationLeft(View v, float x) {
-        return ObjectAnimator.ofFloat(v, "translationX", x, 0);
-    }
     public static ObjectAnimator translationX(View v, float from, float to) {
         return ObjectAnimator.ofFloat(v, "translationX", from, to);
     }
