@@ -116,7 +116,6 @@ public class MenuAdapter {
             public void onClick(View v) {
                 mItemClickListenerCallBack = mItemClickListener;
                 menuToggle();
-                Log.d("debug", "menutoggle");
             }
         });
     }
