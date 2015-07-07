@@ -73,7 +73,6 @@ public class MenuAdapter {
         resetAnimations();
         mAnimatorSetHideMenu = setOpenCloseAnimation(true);
         mAnimatorSetShowMenu = setOpenCloseAnimation(false);
-
     }
 
     private void init() {

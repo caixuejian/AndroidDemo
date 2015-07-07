@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,11 +15,11 @@ import com.example.dinus.androiddemo.contextmenu.MenuAdapter;
 
 import java.util.ArrayList;
 
-
-public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMenuItemClickListener, SurfaceHolder.Callback{
 
     private FragmentManager fm;
     private ContextMenuFragment dialogFragment;
+    private SurfaceView surfaceView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
         setContentView(R.layout.activity_main);
         fm = getSupportFragmentManager();
         dialogFragment = ContextMenuFragment.newInstance(getMenuObjects());
+        surfaceView = (SurfaceView) findViewById(R.id.surface);
+        surfaceView.getHolder().addCallback(this);
     }
 
     private ArrayList<Integer> getMenuObjects() {
@@ -65,4 +69,18 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
         Toast.makeText(this, position + "position", Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        Toast.makeText(this, "surfaceCreated", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Toast.makeText(this, "surfaceDestoryed", Toast.LENGTH_LONG).show();
+    }
 }

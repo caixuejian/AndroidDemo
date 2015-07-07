@@ -8,6 +8,10 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
     <com.example.dinus.androiddemo.RulerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
