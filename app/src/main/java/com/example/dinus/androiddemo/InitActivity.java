@@ -21,6 +21,7 @@ import android.os.Bundle;
 
 public class InitActivity extends Activity {
 	public static final String FROM_ME = "fromVitamioInitActivity";
+	public static final String TAG = InitActivity.class.getName() + "TAG";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
