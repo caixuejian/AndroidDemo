@@ -9,9 +9,6 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Toast;
-
-import io.vov.vitamio.utils.Log;
 
 public class RulerView extends View {
     private final float DEFAULT_TEXT_SIZE_SP                = 14;
