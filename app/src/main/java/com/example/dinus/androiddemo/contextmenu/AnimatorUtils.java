@@ -26,5 +26,4 @@ public class AnimatorUtils {
         return ObjectAnimator.ofFloat(v, "translationY", from, to);
     }
 
-
 }

@@ -26,5 +26,4 @@ public class InitActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 	}
-
 }

@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile project(':vitamio')
+    compile project(':vitamicamera')
 }

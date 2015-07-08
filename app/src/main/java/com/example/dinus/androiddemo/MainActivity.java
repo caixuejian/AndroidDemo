@@ -1,5 +1,6 @@
 package com.example.dinus.androiddemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,12 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dinus.androiddemo.contextmenu.ContextMenuFragment;
 import com.example.dinus.androiddemo.contextmenu.MenuAdapter;
+import com.example.dinus.vitamiocamera.VideoRecordActivity;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
     private FragmentManager fm;
     private ContextMenuFragment dialogFragment;
     private SurfaceView surfaceView ;
+    private TextView textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,16 @@ public class MainActivity extends AppCompatActivity implements MenuAdapter.OnMen
         fm = getSupportFragmentManager();
         dialogFragment = ContextMenuFragment.newInstance(getMenuObjects());
         surfaceView = (SurfaceView) findViewById(R.id.surface);
+        textview = (TextView) findViewById(R.id.textView);
         surfaceView.getHolder().addCallback(this);
+        textview.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent recorderIntent = new Intent(MainActivity.this, VideoRecordActivity.class);
+                startActivity(recorderIntent);
+            }
+        });
     }
 
     private ArrayList<Integer> getMenuObjects() {

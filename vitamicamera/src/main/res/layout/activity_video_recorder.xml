@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="@color/black"
+        >
+
+        <ImageView
+            android:id="@+id/close_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_gravity="center_vertical|left"
+            android:contentDescription="@string/imageview_content_description"
+            android:padding="10dp"
+            android:src="@drawable/record_cancel_seletor" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/camera_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_layout">
+
+        <!--
+             <com.yixia.videoeditor.ui.record.view.CameraSurfaceView
+            android:id="@+id/record_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        -->
+
+        <SurfaceView
+            android:id="@+id/record_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/record_focusing"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/imageview_content_description"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <!-- camera_bottom_bg -->
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_layout"
+        android:layout_marginTop="245dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/operation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/transparent_black_60"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/record_camera_led"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/record_camera_flash_led_selector"
+                android:button="@null"
+                android:textColor="@color/white" />
+
+            <CheckBox
+                android:id="@+id/record_camera_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/record_camera_switch_selector"
+                android:button="@null" />
+
+        </LinearLayout>
+
+        <com.example.dinus.vitamiocamera.views.RecordProgressView
+            android:id="@+id/record_progress"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/title_layout" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/black">
+
+            <CheckedTextView
+                android:id="@+id/record_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:enabled="false"
+                android:background="@drawable/record_delete_selector"
+                android:button="@null"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/select_local_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/ic_select_local_video"/>
+
+            <ImageView
+                android:id="@+id/record_controller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/record_controller_seletor" />
+
+            <ImageView
+                android:id="@+id/title_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:src="@drawable/record_next_seletor"
+                 />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
