@@ -112,6 +112,7 @@ public class RulerView extends View {
         paddingTop = getPaddingTop();
 
         setMeasuredDimension((int) width, (int) height);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private float measure(int measureSpec, boolean isWidth) {
@@ -131,6 +132,7 @@ public class RulerView extends View {
                 result = Math.min(result, size);
             }
         }
+
 
         return result;
     }
